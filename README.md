@@ -1,7 +1,7 @@
 # nodejs-assignement-2
-Node.js API for a pizza-delivery company, with Stripe and Mailgun integrration without any NPM packages as part of the Node master class.
+Node.js API for a pizza-delivery company, with Stripe and Mailgun integrration without any NPM packages.
 
-1. New users can be created, their information can be edited, and they can be deleted. We should store their name, email address, and street address.
+1. New users can be created, their information can be edited, and they can be deleted. Fields are name, email, street address.
 2. Users can log in and log out by creating or destroying a token.
 3. When a user is logged in, they should be able to GET all the possible menu items (these items can be hardcoded into the system). 
 4. A logged-in user should be able to fill a shopping cart with menu items
@@ -16,14 +16,45 @@ PAY / LIST and Sandbox API integration with Stripe and Mailgun
 http/https servers to listen on ports 3000/300
 Background workers to process "submitted" payments and alert the users by email as well as manage log files.
 
-You need to create Stripe and Mailgun accounts for using their sandbox and provide the API credentials in lib/config.js.
+# Project setup
 
-For https, you need to supply a key.pem and cert.pem. They are used in server.js at server.httpsServerOptions.
-* You can use the openssl command to generate them by keying this on your terminal
-* openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -x509 -days 3650 -out cert.pem
-* once generated, place these 2 secret keys into the subfolder ./https/
+1. Once you have downloaded this code, you need to supply some of your information.
 
-launch use node index.js
+2. You need to create Stripe account to use the Stripe sandbox. Edit the file config.js and put your Stripe API credentials.
+'stripe' : {
+      'pubkey' : 'YOUR PUBLIC KEY',  //account id for stripe - used to create tokens 
+      'key'    : 'YOU SECURE KEY',   //all api request
+      'addr'   : "https://api.stripe.com/v1/charges"
+}
+
+3. You need to create a Mailgun account to use the Mailgun sandbox. Edit the file config.js and put your Mailgun API credentials.
+'mailgun' : {
+      'from' : "Mailgun Sandbox <postmaster@sandboxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.mailgun.org>",
+      'key'  : "api:YOUR API KEY",
+      'addr' : "https://api.mailgun.net/v3/sandboxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.mailgun.org/messages"
+},
+
+4. You need to supply key.pem and cert.pem and place them in the https folder. The ones that are there are dummy files that you need to replace. To generate the keys, you can use the openssl on your terminal by keying : 
+
+openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -x509 -days 3650 -out cert.pem. 
+
+5. This program uses hidden directories to store the data.
+.data
+  .menus
+  .tokens
+  .users
+.logs
+
+Go to your application folder, where index.js, and key-in the following command to create them:
+touch .logs
+touch .data
+cd .data
+touch .menus
+touch .tokens
+touch .users
+cd ..
+
+When you are done, you can launch : node index.js
 
 # API Testing with POSTMAN
 
