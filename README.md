@@ -18,25 +18,23 @@ Background workers to process "submitted" payments and alert the users by email 
 
 # Project setup
 
-1. Once you have downloaded this code, you need to supply some of your information.
+Once you have downloaded this code, you need to supply some of your information.
 
-2. You need to create Stripe account to use the Stripe sandbox. Edit the file config.js and put your Stripe API credentials.
+1. You need to create Stripe account to use the Stripe sandbox. Edit the file config.js and put your Stripe API credentials.
 'stripe' : {
       'pubkey' : 'YOUR PUBLIC KEY',  //account id for stripe - used to create tokens 
       'key'    : 'YOU SECURE KEY',   //all api request
       'addr'   : "https://api.stripe.com/v1/charges"
 }
 
-3. You need to create a Mailgun account to use the Mailgun sandbox. Edit the file config.js and put your Mailgun API credentials.
+2. You need to create a Mailgun account to use the Mailgun sandbox. Edit the file config.js and put your Mailgun API credentials.
 'mailgun' : {
       'from' : "Mailgun Sandbox <postmaster@sandboxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.mailgun.org>",
       'key'  : "api:YOUR API KEY",
       'addr' : "https://api.mailgun.net/v3/sandboxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.mailgun.org/messages"
 },
 
-4. You need to supply key.pem and cert.pem and place them in the https folder. The ones that are there are dummy files that you need to replace. To generate the keys, you can use the openssl on your terminal by keying : 
-
-openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -x509 -days 3650 -out cert.pem. 
+3. You need to supply key.pem and cert.pem and place them in the https folder. The ones that are there are dummy files that you need to replace. To generate the keys, you can use the openssl on your terminal by keying : openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -x509 -days 3650 -out cert.pem. 
 
 5. This program uses hidden directories to store the data.
 .data
