@@ -174,7 +174,12 @@ Body : {
   "id": "8wa0w48hfa4mszs1gv1r", //menuId
 }
 
-There are 5 cases here for payment. Everything is logged in (gzipped) logs file (folder .logs)
+# Background workers
+- process requests for payment
+- alert the user
+- update the menu state
+
+There are 4 cases here for payment.
 1. The total amount < 0.001. This is a "ghost menu" and will be deleted from the user and menu tables. 
 2. The payment request was submitted too long ago. We cancel the payment, reset the menu state to "create" and email the user.
 3. The menu cannot be associated with a user right now. We log this, cancel the payment, reset the menu to "create".
