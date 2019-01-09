@@ -25,10 +25,9 @@ For https, you need to supply a key.pem and cert.pem. They are used in server.js
 
 launch use node index.js
 
---
-API testing with POSTMAN
+# API Testing with POSTMAN
 
-Users
+# Users
 
 Create User
 POST / localhost:3000/users
@@ -63,7 +62,7 @@ Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
 }
 
-Tokens (Session tokens used for continuous authentication)
+# Tokens (Session tokens used for continuous authentication)
 
 Create connection token
 POST / localhost:3000/tokens
@@ -99,7 +98,7 @@ Body : {
 }
 if expire is false, we extend the token's life by 60 mins.
 
-Menus
+# Menus
 The restaurant's menu is stored in an internal variable. A menu is just an array of indices referencing each menu item and its price.
 
 Create Menu
@@ -164,7 +163,7 @@ Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
 }
 
-Pay
+# Pay
 - it is impossible to pay for a menu which is being processed for payment.
 - this module writes the state="submitted" which is exploited by workers to process the payments.
 POST / localhost:3000/pay
@@ -181,7 +180,7 @@ There are 5 cases here for payment. Everything is logged in (gzipped) logs file 
 3. The menu cannot be associated with a user right now. We log this, cancel the payment, reset the menu to "create".
 4. Process the payment. If successful, menu state="paid" and email the client the receipt. If not, menu state="create".
 
-list the restaurant menu
+# list the restaurant menu
 - only connected users can see the menu...
 
 POST / localhost:3000/list (works also with GET)
