@@ -41,10 +41,10 @@ Once you have downloaded this code, you need to supply some of your information.
 - https/ [where you put you cert.pem and key.pem]
 - lib/   [where you update the config.js with your credentials]
 - .data/ 
-  -- menus/
-  -- tokens/
-  -- users/
-- .logs
+- .data/menus/
+- .data/tokens/
+- .data/users/
+- .logs/
 
 Go to your application folder, where index.js, and key-in the following command to create them:
 - mkdir .logs
