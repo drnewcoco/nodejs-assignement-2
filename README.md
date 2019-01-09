@@ -36,23 +36,26 @@ Once you have downloaded this code, you need to supply some of your information.
 
 3. You need to supply key.pem and cert.pem and place them in the https folder. The ones that are there are dummy files that you need to replace. To generate the keys, you can use the openssl on your terminal by keying : openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -x509 -days 3650 -out cert.pem. 
 
-5. This program uses hidden directories to store the data.
-.data
-  .menus
-  .tokens
-  .users
-.logs
+5. This program uses hidden directories to store the data. This is the actual directory tree we expect.
+- index.js
+- https/ [where you put you cert.pem and key.pem]
+- lib/   [where you update the config.js with your credentials]
+- .data/ 
+  -- menus/
+  -- tokens/
+  -- users/
+- .logs
 
 Go to your application folder, where index.js, and key-in the following command to create them:
-touch .logs
-touch .data
-cd .data
-touch .menus
-touch .tokens
-touch .users
-cd ..
+- mkdir .logs
+- mkdir .data
+- cd .data
+- mkdir menus
+- mkdir tokens
+- mkdir users
+- cd ..
 
-When you are done, you can launch : node index.js
+When you are done, you can launch : c:\Node\thisApp> node index.js
 
 # API Testing with POSTMAN
 
