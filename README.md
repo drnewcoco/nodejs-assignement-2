@@ -16,13 +16,21 @@ PAY / LIST and Sandbox API integration with Stripe and Mailgun
 http/https servers to listen on ports 3000/300
 Background workers to process "submitted" payments and alert the users by email as well as manage log files.
 
-# You need to create Stripe and Mailgun accounts for using their sandbox and provide the API credentials in lib/config.js.
+You need to create Stripe and Mailgun accounts for using their sandbox and provide the API credentials in lib/config.js.
 
-# API testing with POSTMAN
+For https, you need to supply a key.pem and cert.pem. They are used in server.js at server.httpsServerOptions.
+* You can use the openssl command to generate them by keying this on your terminal
+* openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -x509 -days 3650 -out cert.pem
+* once generated, place these 2 secret keys into the subfolder ./https/
 
-# Users
+launch use node index.js
 
-# Create User
+--
+API testing with POSTMAN
+
+Users
+
+Create User
 POST / localhost:3000/users
 Body : {
 	"name"	: "John",
@@ -31,19 +39,19 @@ Body : {
 	"password"  : "helloword"
 }
 
-# Query User
+Query User
 GET / locahost:3000/users?email=john@xyuz.com
 Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
 }
 
-# Delete User
+Delete User
 DELETE / locahost:3000/users?email=john@xyuz.com
 Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
 }
 
-# Update User
+Update User
 PUT / localhost:3000/users
 Body : {
 	"name"	: "Johnny",              //optional
@@ -55,15 +63,14 @@ Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
 }
 
-# Tokens (Session tokens used for continuous authentication)
+Tokens (Session tokens used for continuous authentication)
 
-# Create connection token
+Create connection token
 POST / localhost:3000/tokens
 Body : {
 	"email"  : "john@xyz.com",
 	"password"  : "helloword"
 }
-
 Response
 {
     "email": "john@xyz.com",
@@ -71,7 +78,7 @@ Response
     "expires": 1547015683697
 }
 
-# Query token
+Query token
 GET / locahost:3000/id?2sdnomkcakh1jcjd6o4w
 Response
 {
@@ -81,10 +88,10 @@ Response
 }
 
 
-# Delete token
+Delete token
 DELETE / locahost:3000/id?2sdnomkcakh1jcjd6o4w
 
-# Update token
+Update token
 PUT / localhost:3000/tokens
 Body : {
 	""id": "2sdnomkcakh1jcjd6o4w",
@@ -92,10 +99,10 @@ Body : {
 }
 if expire is false, we extend the token's life by 60 mins.
 
-# Menus
+Menus
 The restaurant's menu is stored in an internal variable. A menu is just an array of indices referencing each menu item and its price.
 
-# Create Menu
+Create Menu
 POST / localhost:3000/menus
 Body : {
 	"menu"  : [0,1,2,3,4,5] 
@@ -117,7 +124,7 @@ Response {
     "state": "create"
 }
 
-# Query Menu
+Query Menu
 GET / localhost:3000/menus?id=8wa0w48hfa4mszs1gv1r
 Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
@@ -136,7 +143,7 @@ Response {
     "state": "create"
 }
 
-# Update Menu
+Update Menu
 - You cannot update a menu which is being processed for payment (state="pending"). 
 - In all other cases, the state of the menu will be set to "create" which will make the menu available for payments.
 
@@ -149,7 +156,7 @@ Body : {
    "menu": [0,1,2]              //this list cannot be empty
 }
 
-# Delete a menu
+Delete a menu
 - it is forbidden to delete a menu which is being processed for payment.
 - deletes the menu from the user's menu list and from the menus table.
 DELETE / localhost:3000/menus?id=8wa0w48hfa4mszs1gv1r
@@ -157,7 +164,7 @@ Headers : {
   token : "v4hma22teaxyji8ncsei" //20 chars connection token (see below on how to create it)
 }
 
-# Pay
+Pay
 - it is impossible to pay for a menu which is being processed for payment.
 - this module writes the state="submitted" which is exploited by workers to process the payments.
 POST / localhost:3000/pay
@@ -174,7 +181,7 @@ There are 5 cases here for payment. Everything is logged in (gzipped) logs file 
 3. The menu cannot be associated with a user right now. We log this, cancel the payment, reset the menu to "create".
 4. Process the payment. If successful, menu state="paid" and email the client the receipt. If not, menu state="create".
 
-# list the restaurant menu
+list the restaurant menu
 - only connected users can see the menu...
 
 POST / localhost:3000/list (works also with GET)
